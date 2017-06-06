@@ -22,6 +22,19 @@ def home(request):
 
 def single(request, id):
 	if request.user.is_authenticated():
+		queryset = Question.objects.all().order_by('timestamp')
+		instance = get_object_or_404(Question, id=id)
+		try:
+			user_answer = UserAnswer.objects.get(user=request.user, question=instance)
+		except UserAnswer.DoesNotExist:
+			user_answer = UserAnswer()
+		except UserAnswer.MultipleObjectsReturned:
+			user_answer = UserAnswer.objects.filter(user=request.user, question=instance)[0]
+		except:
+			user_answer = UserAnswer()
+
+
+
 		form = UserResponseForm(request.POST or None)
 		if form.is_valid():
 			print(form.cleaned_data)
@@ -38,18 +51,19 @@ def single(request, id):
 
 			
 
-			new_user_answer = UserAnswer()
-			new_user_answer.user = request.user
-			new_user_answer.question = question_instance
-			new_user_answer.my_answer = answer_instance
-			new_user_answer.my_answer_importance = importance_level
+			
+			user_answer.user = request.user
+			user_answer.question = question_instance
+			user_answer.my_answer = answer_instance
+			user_answer.my_answer_importance = importance_level
 			if their_answer_id != -1:
 				their_answer_instance = Answer.objects.get(id=their_answer_id)
-				new_user_answer.their_answer = their_answer_instance
-				new_user_answer.their_answer_importance = their_importance_level
+				user_answer.their_answer = their_answer_instance
+				user_answer.their_answer_importance = their_importance_level
 			else:
-				new_user_answer.their_answer_importance = 'Not Important'
-			new_user_answer.save()
+				user_answer.their_answer = None
+				user_answer.their_answer_importance = 'Not Important'
+			user_answer.save()
 
 
 
@@ -59,14 +73,12 @@ def single(request, id):
 			return redirect("question_single", id=next_q.id)
 
 
-
-		queryset = Question.objects.all().order_by('timestamp')
-		instance = get_object_or_404(Question, id=id)
 		template = "questions/single.html"
 		context = {
 			# "question": queryset,
 			"form": form,
-			"instance":instance
+			"instance":instance,
+			"user_answer": user_answer,
 		}
 		return render(request, template, context)
 	else:
