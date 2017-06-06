@@ -2,9 +2,10 @@ import datetime
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 
-from .utils import get_points, get_match
+from .utils import get_match
 
 class MatchManager(models.Manager):
 	def get_or_create_match(self, user_a=None, user_b=None):
@@ -27,6 +28,16 @@ class MatchManager(models.Manager):
 			new_instance = self.create(user_a=user_a, user_b=user_b)
 			new_instance.do_match()
 			return new_instance, True
+
+	def update_all(self):
+		queryset = self.all()
+		now = timezone.now()
+		offset = now - datetime.timedelta(hours=12)
+		offset2 = now - datetime.timedelta(hours=36)
+		queryset.filter(updated__gt=offset2).filter(updated__lte=offset)
+		if queryse.count > 0: 
+			for i in queryset:
+				i.check_update()
 
 
 class Match(models.Model):

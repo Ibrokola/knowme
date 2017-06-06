@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     'questions',
     'matches',
+    'profiles',
 ]
 
 SITE_ID = 1
