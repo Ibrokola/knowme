@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -9,13 +9,15 @@ from .forms import UserResponseForm
 
 
 def home(request):
-	if request.user.is_authenticated() and request.user.is_staff:
+	template = "questions/home.html"
+	context = {}
+	if request.user.is_authenticated():
 		template = "questions/home.html"
 		queryset = Question.objects.all()
-		context = {
-			"question": queryset
-		}
+		context = {}
 		return render(request, template, context)
+	return render(request, template, context)
+
 
 
 
@@ -33,11 +35,9 @@ def single(request, id):
 		except:
 			user_answer = UserAnswer()
 
-
-
 		form = UserResponseForm(request.POST or None)
 		if form.is_valid():
-			print(form.cleaned_data)
+			# print(form.cleaned_data)
 			# print(request.POST)
 			question_id = form.cleaned_data.get('question_id')
 			answer_id = form.cleaned_data.get('answer_id')
@@ -48,9 +48,6 @@ def single(request, id):
 
 			question_instance = Question.objects.get(id=question_id)
 			answer_instance = Answer.objects.get(id=answer_id)
-
-			
-
 			
 			user_answer.user = request.user
 			user_answer.question = question_instance
@@ -64,10 +61,6 @@ def single(request, id):
 				user_answer.their_answer = None
 				user_answer.their_answer_importance = 'Not Important'
 			user_answer.save()
-
-
-
-
 
 			next_q = Question.objects.all().order_by("?").first()
 			return redirect("question_single", id=next_q.id)
