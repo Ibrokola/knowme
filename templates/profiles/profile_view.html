@@ -11,12 +11,21 @@
 	        <div class="photo-container">
 	        {% if profile.picture %}
 	            <img src="{{ profile.picture.url }}" alt="">
-	        {# else #}
-	        	<!-- <img src="{% static 'img/ryan.jpg' %}"> -->
+	        {% else %}
+	        	<img src="{% static 'img/default-avatar.png' %}">
 	        {% endif %}
 	        </div>
+	        
 	        <h3 class="title">{{ profile.user }}</h3>
-	        <p class="category">Photographer</p>
+	        {% if jobs %}
+		        {% for job in jobs %}
+		        	<p class="category">{{ job.position }}</p>
+		        	<!-- <p>in</p> -->
+		        	<p class="category">{{ job.location }}</p>
+		        	<!-- <p>at</p> -->
+		        	<h6 class="category"><small>Works at</small> - {{ job.employer_name }}</h6>
+		        {% endfor %}
+	        {% endif %}
 	        <div class="content">
 	            <div class="social-description">
 	                <h2>{{ match.get_percent }}</h2>
@@ -47,6 +56,13 @@
         </div>
         <h3 class="title">About me</h3>
         <h5 class="description">An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. An artist of considerable range.</h5>
+
+    	{% if jobs %}
+    		{% for job in jobs %}
+    			<li> {{ job.position }} in {{ job.location }} at {{ job.employer_name }}</li>
+    		{% endfor %}
+    	{% endif %}
+
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <h4 class="title text-center">My Portfolio</h4>

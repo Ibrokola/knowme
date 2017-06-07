@@ -2,10 +2,11 @@ from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 
+from jobs.models import Job, Employer, Location
 from .models import Question, Answer, UserAnswer
 from .forms import UserResponseForm
 
-from matches.models import Match
+from matches.models import Match, PositionMatch, EmployerMatch, LocationMatch
 
 
 def home(request):
@@ -13,33 +14,66 @@ def home(request):
 	context = {}
 	if request.user.is_authenticated():
 		template = "questions/home.html"
-		matches = Match.objects.matches_all(request.user)
+		# matches = Match.objects.matches_all(request.user)
 		queryset = Question.objects.all().order_by('-timestamp')
-		context = { 'matches':matches }
+		context = {}
 		return render(request, template, context)
 	return render(request, template, context)
 
 
 def dashboard_view(request):
 	if request.user.is_authenticated():
-		matches = []
-		matche_set = Match.objects.matches_all(request.user).order_by('-match_decimal')
-		for match in matche_set:
-			if match.user_a == request.user and match.user_b != request.user:
-				items_wanted = [match.user_b, match.get_percent]
-				matches.append(items_wanted)
-			elif match.user_b == request.user and match.user_a != request.user:
-				items_wanted = [match.user_a, match.get_percent]
-				matches.append(items_wanted)
-			else:
-				pass
+		
+		# matches_new = PositionMatch.objects.filter(user=request.user)
+		matches = Match.objects.get_matches_with_percent(request.user)[:6]
+		positions = PositionMatch.objects.filter(user=request.user)[:6]
+		
+		if positions.count() > 0:
+			positions[0].check_update(20) #20 matches total
+		locations = LocationMatch.objects.filter(user=request.user)[:6]
+		employers = EmployerMatch.objects.filter(user=request.user)[:6]
+		# for match in matches:
+		# 	job_set = match[0].userjob_set.all()
+		# 	if job_set.count() > 0:
+		# 		for job in job_set:
+		# 			if job.position not in positions:
+		# 				positions.append(job.position)
+		# 				try:
+		# 					the_job = Job.objects.get(text__iexact=job.position)
+		# 					jobmatch, created = PositionMatch.objects.get_or_create(user=request.user, job=the_job)
+		# 				except:
+		# 					pass
+		# 					print(PositionMatch.objects.filter(user=request.user))
+		# 			if job.location not in locations:
+		# 				locations.append(job.location)
+		# 				try:
+		# 					the_loc = Location.objects.get(text__iexact=job.location)
+		# 					locmatch, created = LocationMatch.objects.get_or_create(user=request.user, location=the_loc)
+		# 					print(locmatch)
+		# 				except:
+		# 					pass
+							
+		# 			if job.employer_name not in employers:
+		# 				employers.append(job.employer_name)
+		# 				try:
+		# 					the_employer = Employer.objects.get(text__iexact=job.employer_name)
+		# 					employermatch, created = EmployerMatch.objects.get_or_create(user=request.user, employer=the_employer)
+		# 					print(employermatch)
+		# 				except:
+		# 					pass
+							
+
+
+
 
 		queryset = Question.objects.all().order_by('-timestamp')
-
 		template = "questions/dashboard.html"
-		context = { 
+		context = { 	
 				'queryset': queryset,
-				'matches': matches
+				'matches': matches,
+				'positions': positions,
+				'locations': locations,
+				'employers': employers,
 			}
 		return render(request, template, context)
 	else:

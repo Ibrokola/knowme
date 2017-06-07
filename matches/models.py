@@ -6,23 +6,26 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 
+from jobs.models import Job, Employer, Location
+
 from .utils import get_match
 
-
+User = settings.AUTH_USER_MODEL
 
 class MatchQuerySet(models.query.QuerySet):
 	def all(self):
 		return self.filter(active=True)
 
 	def matches(self, user):
-		q1 = self.filter(user_a=user)
-		q2 = self.filter(user_b=user)
+		q1 = self.filter(user_a=user).exclude(user_b=user)
+		q2 = self.filter(user_b=user).exclude(user_a=user)
 		return (q1 | q2).distinct()
 
 
 class MatchManager(models.Manager):
 	def get_queryset(self):
 		return MatchQuerySet(self.model, using=self._db)
+
 	def get_or_create_match(self, user_a=None, user_b=None):
 		try:
 			obj = self.get(user_a=user_a, user_b=user_b)
@@ -50,13 +53,44 @@ class MatchManager(models.Manager):
 		offset = now - datetime.timedelta(hours=12)
 		offset2 = now - datetime.timedelta(hours=36)
 		queryset.filter(updated__gt=offset2).filter(updated__lte=offset)
-		if queryse.count > 0: 
+		if queryset.count() > 0: 
 			for i in queryset:
 				i.check_update()
 
 
-	def matches_all(self, user):
-		return self.get_queryset().matches(user)
+	# def matches_all(self, user):
+	# 	return self.get_queryset().matches(user)
+
+
+	def get_matches(self, user):
+		qs = self.get_queryset().matches(user).order_by('-match_decimal')
+		matches = []
+		for match in qs:
+			if match.user_a == user:
+				items_wanted = [match.user_b]
+				matches.append(items_wanted)
+			elif match.user_b == user:
+				items_wanted = [match.user_a]
+				matches.append(items_wanted)
+			else:
+				pass
+		return matches
+
+
+	def get_matches_with_percent(self, user):
+		qs = self.get_queryset().matches(user).order_by('-match_decimal')
+		matches = []
+		for match in qs:
+			if match.user_a == user:
+				items_wanted = [match.user_b, match.get_percent]
+				matches.append(items_wanted)
+			elif match.user_b == user:
+				items_wanted = [match.user_a, match.get_percent]
+				matches.append(items_wanted)
+			else:
+				pass
+		return matches
+
 
 
 class Match(models.Model):
@@ -75,7 +109,7 @@ class Match(models.Model):
 
 	@property
 	def get_percent(self):
-		new_decimal = self.match_decimal * Decimal(100)
+		new_decimal = Decimal(self.match_decimal) * Decimal(100)
 		return "%.2f%%" %(new_decimal)
 
 
@@ -90,7 +124,77 @@ class Match(models.Model):
 	def check_update(self):
 		now = timezone.now()
 		offset = now - datetime.timedelta(hours=12)
-		if self.updated <= offset:
+		if self.updated <= offset or self.match_decimal == 0.0:
 			self.do_match()
+			PositionMatch.objects.update_top_suggestions(self.user_a, 6)
+			PositionMatch.objects.update_top_suggestions(self.user_b, 6)
 		else:
 			print("already updated")
+
+
+
+class PositionMatchManager(models.Manager):
+	def update_top_suggestions(self, user, match_int):
+		matches = Match.objects.get_matches(user)[:match_int]
+		for match in matches:
+			job_set = match[0].userjob_set.all()
+			if job_set.count() > 0:
+				for job in job_set:
+					try:
+						the_job = Job.objects.get(text__iexact=job.position)
+						jobmatch, created = self.get_or_create(user=user, job=the_job)
+					except:
+						pass
+					try:
+						the_loc = Location.objects.get(text__iexact=job.location)
+						locmatch, created = LocationMatch.objects.get_or_create(user=user, location=the_loc)
+					except:
+						pass							
+					try:
+						the_employer = Employer.objects.get(text__iexact=job.employer_name)
+						empymatch, created = EmployerMatch.objects.get_or_create(user=user, employer=the_employer)
+					except:
+						pass
+
+
+
+class PositionMatch(models.Model):
+	user = models.ForeignKey(User)
+	job = models.ForeignKey(Job)
+	hidden = models.BooleanField(default=False)
+	liked = models.NullBooleanField()
+	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+	def __str__(self):
+		return self.job.text
+
+	objects = PositionMatchManager()
+
+	def check_update(self, match_int):
+		now = timezone.now()
+		offset = now - datetime.timedelta(hours=12)
+		if self.updated <= offset:
+			PositionMatch.objects.update_top_suggestions(self.user, match_int)
+		else:
+			print("already updated")
+
+
+
+class EmployerMatch(models.Model):
+	user = models.ForeignKey(User)
+	employer = models.ForeignKey(Employer)
+	hidden = models.BooleanField(default=False)
+	liked = models.NullBooleanField()
+
+	def __str__(self):
+		return self.user.username
+
+
+class LocationMatch(models.Model):
+	user = models.ForeignKey(User)
+	location = models.ForeignKey(Location)
+	hidden = models.BooleanField(default=False)
+	liked = models.NullBooleanField()
+
+	def __str__(self):
+		return self.user.username

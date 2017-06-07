@@ -32,12 +32,15 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
+    'crispy_forms',
+    'localflavor',
 
 
 
     'questions',
     'matches',
     'profiles',
+    'jobs',
 ]
 
 SITE_ID = 1
