@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Question, Answer, UserAnswer
 from .forms import UserResponseForm
 
-
+from matches.models import Match
 
 
 def home(request):
@@ -13,13 +13,37 @@ def home(request):
 	context = {}
 	if request.user.is_authenticated():
 		template = "questions/home.html"
-		queryset = Question.objects.all()
-		context = {}
+		matches = Match.objects.matches_all(request.user)
+		queryset = Question.objects.all().order_by('-timestamp')
+		context = { 'matches':matches }
 		return render(request, template, context)
 	return render(request, template, context)
 
 
+def dashboard_view(request):
+	if request.user.is_authenticated():
+		matches = []
+		matche_set = Match.objects.matches_all(request.user).order_by('-match_decimal')
+		for match in matche_set:
+			if match.user_a == request.user and match.user_b != request.user:
+				items_wanted = [match.user_b, match.get_percent]
+				matches.append(items_wanted)
+			elif match.user_b == request.user and match.user_a != request.user:
+				items_wanted = [match.user_a, match.get_percent]
+				matches.append(items_wanted)
+			else:
+				pass
 
+		queryset = Question.objects.all().order_by('-timestamp')
+
+		template = "questions/dashboard.html"
+		context = { 
+				'queryset': queryset,
+				'matches': matches
+			}
+		return render(request, template, context)
+	else:
+		raise Http404
 
 
 def single(request, id):
@@ -75,7 +99,7 @@ def single(request, id):
 		}
 		return render(request, template, context)
 	else:
-		return Http404
+		raise Http404
 
 
 
@@ -100,4 +124,4 @@ def create_view(request):
 		}
 		return render(request, template, context)
 	else:
-		return Http404
+		raise Http404

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+
+<div class="page-header page-header-small">
+    <div class="page-header-image" data-parallax="true" style="background-image: url('{% static 'img/bg6.jpg' %}');">
+    </div>
+    <div class="container">
+        <div class="content-center">
+            <h1 class="title h1-responsive">Get to know people better</h1>
+            <!-- <div class="text-center">
+                <a href="#pablo" class="btn btn-primary btn-icon  btn-icon-mini">
+                    <i class="fa fa-facebook-square"></i>
+                </a>
+                <a href="#pablo" class="btn btn-primary btn-icon btn-icon-mini">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="#pablo" class="btn btn-primary btn-icon  btn-icon-mini">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+            </div> -->
+        </div>
+    </div>
+</div>
+<div class="section section-about-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <h2 class="title h2-responsive">Who do you match with?</h2> 
+	            </div>
+	        </div>
+	        <!-- <div class="container"> -->
+	        <div class="row">
+	        <div class="col-sm-8">
+	        	<h1 class="h1-responsive">Dashboard</h1>
+	        </div>
+		        <div class="col-sm-4"> 
+			        <h3 class="h3-responsive">Matches</h3>
+			        {% for match_user, percent in matches %}    
+			            <div class="col-sm-4 text-center">
+			                <a href="{{ match_user.profile.get_absolute_url }}">{{ match_user }}</a>
+				                {% if match_user.profile.picture %}
+				                <a href="{{ match_user.profile.get_absolute_url }}"><img src="{{ user.profile.picture.url }}" class="img-responsive">
+				                {% else %}
+				                <img src="{% static 'img/ryan.jpg' %}">
+				                </a>
+				                {% endif %}
+			                {{ percent }}
+			            </div>
+		             {% endfor %}
+	            </div>
+	        </div>
+        <!-- </div> -->
+    </div>
+</div>
+
+
+
+
+{% endblock %}

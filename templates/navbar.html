@@ -25,7 +25,7 @@
                 <span class="navbar-toggler-bar bar2"></span>
                 <span class="navbar-toggler-bar bar3"></span>
             </button>
-            <a class="navbar-brand" href="#" rel="tooltip" title="Created by Ibrokola" data-placement="bottom">
+            <a class="navbar-brand" href="{% url 'home' %}" rel="tooltip" title="Created by Ibrokola" data-placement="bottom">
                 Know Me
             </a>
         </div>
@@ -68,14 +68,27 @@
                     </a>
                 {% endif %}
                 </li>
-                <li>
+                
                 {% if request.user.is_authenticated %}
+                <li>
+                    <a class="nav-link" rel="tooltip" title="Dashboard" data-placement="bottom" href="{% url 'dashboard' %}">
+                        <i class="now-ui-icons files_single-copy-04"></i>
+                        <p class="hidden-lg-up">dashboard</p>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" rel="tooltip" title="Profile" data-placement="bottom" href="">
+                        <i class="now-ui-icons users_circle-08"></i>
+                        <p class="hidden-lg-up">profile</p>
+                    </a>
+                </li>
+                <li>
                     <a class="nav-link" rel="tooltip" title="Logout" data-placement="bottom" href="/accounts/logout/">
                         <i class="now-ui-icons gestures_tap-01"></i>
                         <p class="hidden-lg-up">logout</p>
                     </a>
-                {% endif %}
                 </li>
+                {% endif %}
             
                 <!-- <div class="nav-item dropdown button-dropdown">
                     <a href="#pablo" class="dropdown-toggle" id="navbarDropdown" data-toggle="dropdown">
