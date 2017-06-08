@@ -117,8 +117,8 @@ class Match(models.Model):
 		user_a = self.user_a
 		user_b = self.user_b
 		match_decimal, questions_answered = get_match(user_a, user_b)
-		match_decimal = self.match_decimal
-		questions_answered = self.questions_answered
+		self.match_decimal = match_decimal 
+		self.questions_answered = questions_answered 
 		self.save()
 
 	def check_update(self):
@@ -146,12 +146,12 @@ class PositionMatchManager(models.Manager):
 					except:
 						pass
 					try:
-						the_loc = Location.objects.get(text__iexact=job.location)
+						the_loc = Location.objects.get(name__iexact=job.location)
 						locmatch, created = LocationMatch.objects.get_or_create(user=user, location=the_loc)
 					except:
 						pass							
 					try:
-						the_employer = Employer.objects.get(text__iexact=job.employer_name)
+						the_employer = Employer.objects.get(name__iexact=job.employer_name)
 						empymatch, created = EmployerMatch.objects.get_or_create(user=user, employer=the_employer)
 					except:
 						pass
@@ -175,9 +175,6 @@ class PositionMatch(models.Model):
 		offset = now - datetime.timedelta(hours=12)
 		if self.updated <= offset:
 			PositionMatch.objects.update_top_suggestions(self.user, match_int)
-		else:
-			print("already updated")
-
 
 
 class EmployerMatch(models.Model):

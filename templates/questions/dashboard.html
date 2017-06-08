@@ -51,10 +51,36 @@
     		                <a href="{{ match_user.profile.get_absolute_url }}"><img src="{{ user.profile.picture.url }}" class="img-responsive">
     		                {% else %}
     		                <img src="{% static 'img/deafult.png' %}">
-    		                </a>
+    		                
     		                {% endif %}
     	                {{ percent }}
+                        </a>
     	            </div>
+                 {% endfor %}
+                </div>
+
+            <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Positions</h3>
+                <div class="row">
+                {% for pos in positions %}    
+                    <div class="col-sm-4 text-center">
+                        <p class="lead"><small>{{ pos }}</small></p>
+                    </div>
+                 {% endfor %}
+                </div>
+            <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Locations</h3>
+                <div class="row">
+                {% for pos in locations %}    
+                    <div class="col-sm-4 text-center">
+                        <p class="lead"><small>{{ pos.location.name }}</small></p>
+                    </div>
+                 {% endfor %}
+                </div>
+            <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Employers</h3>
+                <div class="row">
+                {% for pos in employers %}    
+                    <div class="col-sm-4 text-center">
+                        <p class="lead"><small>{{ pos.employer.name }}</small></p>
+                    </div>
                  {% endfor %}
                 </div>
         </div>

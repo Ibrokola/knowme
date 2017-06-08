@@ -24,7 +24,7 @@ def home(request):
 def dashboard_view(request):
 	if request.user.is_authenticated():
 		
-		# matches_new = PositionMatch.objects.filter(user=request.user)
+		# PositionMatch.objects.update_top_suggestions(request.user, 20)
 		matches = Match.objects.get_matches_with_percent(request.user)[:6]
 		positions = PositionMatch.objects.filter(user=request.user)[:6]
 		
