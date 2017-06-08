@@ -11,42 +11,6 @@ from likes.models import UserLike
 from matches.models import Match, PositionMatch, EmployerMatch, LocationMatch
 
 
-def home(request):
-	template = "questions/home.html"
-	context = {}
-	if request.user.is_authenticated():
-		template = "questions/home.html"
-		# matches = Match.objects.matches_all(request.user)
-		queryset = Question.objects.all().order_by('-timestamp')
-		context = {}
-		return render(request, template, context)
-	return render(request, template, context)
-
-
-def dashboard_view(request):
-	if request.user.is_authenticated():
-		PositionMatch.objects.update_top_suggestions(request.user, 20)
-		matches = Match.objects.get_matches_with_percent(request.user)[:6]
-		positions = PositionMatch.objects.filter(user=request.user)[:6]
-		if positions.count() > 0:
-			positions[0].check_update(20) #20 matches total
-		locations = LocationMatch.objects.filter(user=request.user)[:6]
-		employers = EmployerMatch.objects.filter(user=request.user)[:6]
-		mututal_likes = UserLike.objects.get_all_mutual_likes(request.user)
-		queryset = Question.objects.all().order_by('-timestamp')
-		template = "questions/dashboard.html"
-		context = { 	
-				'queryset': queryset,
-				'matches': matches,
-				'positions': positions,
-				'locations': locations,
-				'employers': employers,
-				'mutual_likes': mututal_likes,
-			}
-		return render(request, template, context)
-	else:
-		raise Http404
-
 
 def single(request, id):
 	if request.user.is_authenticated():

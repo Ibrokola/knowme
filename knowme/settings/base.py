@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'profiles',
     'jobs',
     'likes',
+    'dashboard',
 ]
 
 SITE_ID = 1

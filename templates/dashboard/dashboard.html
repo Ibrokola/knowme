@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<style>
+{% block style %}
+
+{% endblock %}
+</style>
+
+
+{% block content %}
+
+
+<div class="page-header page-header-small">
+    <div class="page-header-image" data-parallax="true" style="background-image: url('{% static 'img/bg6.jpg' %}');">
+    </div>
+    <div class="container">
+        <div class="content-center">
+            <h1 class="title h1-responsive">Get to know people better</h1>
+            <!-- <div class="text-center">
+                <a href="#pablo" class="btn btn-primary btn-icon  btn-icon-mini">
+                    <i class="fa fa-facebook-square"></i>
+                </a>
+                <a href="#pablo" class="btn btn-primary btn-icon btn-icon-mini">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="#pablo" class="btn btn-primary btn-icon  btn-icon-mini">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+            </div> -->
+        </div>
+    </div>
+</div>
+<div class="section section-about-us">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+                <h2 class="title h2-responsive">Who are your matches?</h2> 
+            </div>
+        </div>
+    </div>
+</div>        
+<div class="container">
+
+   {% if new_user %}
+
+        <h3>Welcome <strong>{{ user }}</strong></h3>
+
+   {% else %}
+   <div class="row">
+        <div class="col-sm-8">
+        	<h1 class="h1-responsive">Dashboard</h1>
+            {% if mutual_likes %}            
+            <h3 class="h3-responsive">Mutual Interest</h3>
+            <div class="row">
+                {% for liked_user in mutual_likes %}    
+                    <div class="col-sm-3 text-center">
+                        <a href="{{ liked_user.profile.get_absolute_url }}" style="text-decoration: none;">{{ liked_user }}</a>
+                            <a href="{{ liked_user.profile.get_absolute_url }}">
+                            {% if liked_user.profile.picture %}
+                              <img src="{{ liked_user.profile.picture.url }}" class="img-responsive center-block rounded img-raised">
+                            {% else %}
+                              <img src="{% static 'img/deafult.png' %}" class="img-responsive center-block rounded-circle img-raised">
+                            {% endif %}
+                            </a>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+        <div class="col-sm-4"> 
+	        <h3 class="h3-responsive text-center">Matches</h3>
+            <hr>
+                <div class="row">
+    	        {% for match_user, percent in matches %}    
+    	            <div class="col-sm-4 text-center">
+    	                <a href="{{ match_user.profile.get_absolute_url }}" style="text-decoration: none;">{{ match_user }}</a>
+    		                <a href="{{ match_user.profile.get_absolute_url }}">
+                            {% if match_user.profile.picture %}
+    		                  <img src="{{ match_user.profile.picture.url }}" class="img-responsive center-block rounded img-raised">
+    		                {% else %}
+    		                  <img src="{% static 'img/deafult.png' %}" class="img-responsive center-block rounded-circle img-raised">
+    		                {% endif %}
+                            </a>
+
+
+    	                {{ percent }}
+
+    	            </div>
+                {% endfor %}
+                </div>
+
+            <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Positions</h3>
+            <hr>
+                <div class="row">
+                {% for pos in positions %}    
+                    <div class="col-sm-4 text-center">
+                        <p class="lead"><small><a href="{{ pos.get_match_url }}" style="text-decoration: none;">{{ pos.job.text }}</a></small></p>
+                    </div>
+                 {% endfor %}
+                </div>
+            <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Locations</h3>
+            <hr>
+                <div class="row">
+                {% for pos in locations %}    
+                    <div class="col-sm-4 text-center">
+                        <p class="lead"><small><a href="{{ pos.get_match_url }}" style="text-decoration: none;">{{ pos.location.name }}</a></small></p>
+                    </div>
+                 {% endfor %}
+                </div>
+            <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Employers</h3>
+            <hr>
+                <div class="row">
+                {% for pos in employers %}    
+                    <div class="col-sm-4 text-center">
+                        <p class="lead"><small><a href="{{ pos.get_match_url }}" style="text-decoration: none;">{{ pos.employer.name }}</small></a></p>
+                    </div>
+                 {% endfor %}
+                </div>
+        </div>
+   </div>
+   {% endif %}
+</div>
+
+{% endblock %}
