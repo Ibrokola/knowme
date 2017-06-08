@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'matches',
     'profiles',
     'jobs',
+    'likes',
 ]
 
 SITE_ID = 1

@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
+<style>
+{% block style %}
+
+{% endblock %}
+</style>
 
 
 {% block content %}
-
 
 
 <div class="page-header page-header-small">
@@ -47,16 +51,19 @@
     	        {% for match_user, percent in matches %}    
     	            <div class="col-sm-4 text-center">
     	                <a href="{{ match_user.profile.get_absolute_url }}">{{ match_user }}</a>
-    		                {% if match_user.profile.picture %}
-    		                <a href="{{ match_user.profile.get_absolute_url }}"><img src="{{ user.profile.picture.url }}" class="img-responsive">
+    		                <a href="{{ match_user.profile.get_absolute_url }}">
+                            {% if match_user.profile.picture %}
+    		                  <img src="{{ match_user.profile.picture.url }}" class="img-responsive center-block">
     		                {% else %}
-    		                <img src="{% static 'img/deafult.png' %}" class="img-responsive">
-    		                
+    		                  <img src="{% static 'img/deafult.png' %}" class="img-responsive center-block">
     		                {% endif %}
+                            </a>
+
+
     	                {{ percent }}
-                        </a>
+
     	            </div>
-                 {% endfor %}
+                {% endfor %}
                 </div>
 
             <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Positions</h3>

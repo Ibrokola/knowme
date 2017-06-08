@@ -123,14 +123,14 @@ class Match(models.Model):
 		self.match_decimal = match_decimal 
 		self.questions_answered = questions_answered 
 		self.save()
+		PositionMatch.objects.update_top_suggestions(self.user_a, 6)
+		PositionMatch.objects.update_top_suggestions(self.user_b, 6)
 
 	def check_update(self):
 		now = timezone.now()
 		offset = now - datetime.timedelta(hours=12)
 		if self.updated <= offset or self.match_decimal == 0.0:
 			self.do_match()
-			PositionMatch.objects.update_top_suggestions(self.user_a, 6)
-			PositionMatch.objects.update_top_suggestions(self.user_b, 6)
 		else:
 			print("already updated")
 

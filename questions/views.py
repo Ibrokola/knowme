@@ -23,49 +23,13 @@ def home(request):
 
 def dashboard_view(request):
 	if request.user.is_authenticated():
-		
 		PositionMatch.objects.update_top_suggestions(request.user, 20)
 		matches = Match.objects.get_matches_with_percent(request.user)[:6]
 		positions = PositionMatch.objects.filter(user=request.user)[:6]
-		
 		if positions.count() > 0:
 			positions[0].check_update(20) #20 matches total
 		locations = LocationMatch.objects.filter(user=request.user)[:6]
 		employers = EmployerMatch.objects.filter(user=request.user)[:6]
-		# for match in matches:
-		# 	job_set = match[0].userjob_set.all()
-		# 	if job_set.count() > 0:
-		# 		for job in job_set:
-		# 			if job.position not in positions:
-		# 				positions.append(job.position)
-		# 				try:
-		# 					the_job = Job.objects.get(text__iexact=job.position)
-		# 					jobmatch, created = PositionMatch.objects.get_or_create(user=request.user, job=the_job)
-		# 				except:
-		# 					pass
-		# 					print(PositionMatch.objects.filter(user=request.user))
-		# 			if job.location not in locations:
-		# 				locations.append(job.location)
-		# 				try:
-		# 					the_loc = Location.objects.get(text__iexact=job.location)
-		# 					locmatch, created = LocationMatch.objects.get_or_create(user=request.user, location=the_loc)
-		# 					print(locmatch)
-		# 				except:
-		# 					pass
-							
-		# 			if job.employer_name not in employers:
-		# 				employers.append(job.employer_name)
-		# 				try:
-		# 					the_employer = Employer.objects.get(text__iexact=job.employer_name)
-		# 					employermatch, created = EmployerMatch.objects.get_or_create(user=request.user, employer=the_employer)
-		# 					print(employermatch)
-		# 				except:
-		# 					pass
-							
-
-
-
-
 		queryset = Question.objects.all().order_by('-timestamp')
 		template = "questions/dashboard.html"
 		context = { 	
@@ -159,3 +123,37 @@ def create_view(request):
 		return render(request, template, context)
 	else:
 		raise Http404
+
+
+
+
+
+# for match in matches:
+		# 	job_set = match[0].userjob_set.all()
+		# 	if job_set.count() > 0:
+		# 		for job in job_set:
+		# 			if job.position not in positions:
+		# 				positions.append(job.position)
+		# 				try:
+		# 					the_job = Job.objects.get(text__iexact=job.position)
+		# 					jobmatch, created = PositionMatch.objects.get_or_create(user=request.user, job=the_job)
+		# 				except:
+		# 					pass
+		# 					print(PositionMatch.objects.filter(user=request.user))
+		# 			if job.location not in locations:
+		# 				locations.append(job.location)
+		# 				try:
+		# 					the_loc = Location.objects.get(text__iexact=job.location)
+		# 					locmatch, created = LocationMatch.objects.get_or_create(user=request.user, location=the_loc)
+		# 					print(locmatch)
+		# 				except:
+		# 					pass
+							
+		# 			if job.employer_name not in employers:
+		# 				employers.append(job.employer_name)
+		# 				try:
+		# 					the_employer = Employer.objects.get(text__iexact=job.employer_name)
+		# 					employermatch, created = EmployerMatch.objects.get_or_create(user=request.user, employer=the_employer)
+		# 					print(employermatch)
+		# 				except:
+		# 					pass
