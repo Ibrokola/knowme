@@ -44,18 +44,37 @@
    <div class="row">
         <div class="col-sm-8">
         	<h1 class="h1-responsive">Dashboard</h1>
+            {% if mutual_likes %}            
+            <h3 class="h3-responsive">Mutual Interest</h3>
+            <div class="row">
+                {% for liked_user in mutual_likes %}    
+                    <div class="col-sm-3 text-center">
+                        <a href="{{ liked_user.profile.get_absolute_url }}" style="text-decoration: none;">{{ liked_user }}</a>
+                            <a href="{{ liked_user.profile.get_absolute_url }}">
+                            {% if liked_user.profile.picture %}
+                              <img src="{{ liked_user.profile.picture.url }}" class="img-responsive center-block rounded img-raised">
+                            {% else %}
+                              <img src="{% static 'img/deafult.png' %}" class="img-responsive center-block rounded-circle img-raised">
+                            {% endif %}
+                            </a>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
         </div>
         <div class="col-sm-4"> 
 	        <h3 class="h3-responsive text-center">Matches</h3>
+            <hr>
                 <div class="row">
     	        {% for match_user, percent in matches %}    
     	            <div class="col-sm-4 text-center">
-    	                <a href="{{ match_user.profile.get_absolute_url }}">{{ match_user }}</a>
+    	                <a href="{{ match_user.profile.get_absolute_url }}" style="text-decoration: none;">{{ match_user }}</a>
     		                <a href="{{ match_user.profile.get_absolute_url }}">
                             {% if match_user.profile.picture %}
-    		                  <img src="{{ match_user.profile.picture.url }}" class="img-responsive center-block">
+    		                  <img src="{{ match_user.profile.picture.url }}" class="img-responsive center-block rounded img-raised">
     		                {% else %}
-    		                  <img src="{% static 'img/deafult.png' %}" class="img-responsive center-block">
+    		                  <img src="{% static 'img/deafult.png' %}" class="img-responsive center-block rounded-circle img-raised">
     		                {% endif %}
                             </a>
 
@@ -67,6 +86,7 @@
                 </div>
 
             <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Positions</h3>
+            <hr>
                 <div class="row">
                 {% for pos in positions %}    
                     <div class="col-sm-4 text-center">
@@ -75,6 +95,7 @@
                  {% endfor %}
                 </div>
             <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Locations</h3>
+            <hr>
                 <div class="row">
                 {% for pos in locations %}    
                     <div class="col-sm-4 text-center">
@@ -83,6 +104,7 @@
                  {% endfor %}
                 </div>
             <h3 class="h3-responsive text-center" style="padding-top: 50px;">Suggested Employers</h3>
+            <hr>
                 <div class="row">
                 {% for pos in employers %}    
                     <div class="col-sm-4 text-center">

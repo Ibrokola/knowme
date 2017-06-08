@@ -6,6 +6,8 @@ from jobs.models import Job, Employer, Location
 from .models import Question, Answer, UserAnswer
 from .forms import UserResponseForm
 
+from likes.models import UserLike
+
 from matches.models import Match, PositionMatch, EmployerMatch, LocationMatch
 
 
@@ -30,6 +32,7 @@ def dashboard_view(request):
 			positions[0].check_update(20) #20 matches total
 		locations = LocationMatch.objects.filter(user=request.user)[:6]
 		employers = EmployerMatch.objects.filter(user=request.user)[:6]
+		mututal_likes = UserLike.objects.get_all_mutual_likes(request.user)
 		queryset = Question.objects.all().order_by('-timestamp')
 		template = "questions/dashboard.html"
 		context = { 	
@@ -38,6 +41,7 @@ def dashboard_view(request):
 				'positions': positions,
 				'locations': locations,
 				'employers': employers,
+				'mutual_likes': mututal_likes,
 			}
 		return render(request, template, context)
 	else:
