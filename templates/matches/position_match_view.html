@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+<div class="container" style="padding-top: 100px;">
+	<h3>{{ instance }}</h3>
+	{% for match in matches %}
+		<p class="lead">{{ match.user }}</p>
+		{% if match.user.profile.picture %}
+			<img src="{{ match.user.profile.picture.url }}">
+		{% else %}
+			<img src="{% static 'img/deafult.png' %}">
+		{% endif %}
+	{% endfor %}
+</div>
+
+
+
+
+
+{% endblock %} 

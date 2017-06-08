@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^profile/(?P<username>[\w.@+-]+)/$', profile_view, name='profile'),
     url(r'^profile/job/add/$', job_add, name='job_add'),
     url(r'^profile/job/edit/$', job_edit, name='job_edit'),
+    url(r'^matches/', include('matches.urls')),
 ]
 
 
