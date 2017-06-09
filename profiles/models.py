@@ -16,6 +16,7 @@ class Profile(models.Model):
 	user = models.OneToOneField(User)
 	location = models.CharField(max_length=120, null=True, blank=True)
 	picture = models.ImageField(upload_to=upload_location, null=True, blank=True)
+	description = models.TextField()
 
 	def __str__(self):
 		return self.user.username

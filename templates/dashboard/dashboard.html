@@ -43,13 +43,48 @@
 <div class="container">
 
    {% if new_user %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="text-center">Welcome <strong>{{ user }}</strong></h3>
+            <div style="padding-bottom: 50px;">
 
-        <h3>Welcome <strong>{{ user }}</strong></h3>
+            {% if question_instance %}
+
+            {% include "questions/user_response_form.html" with instance=question_instance form=question_form title_size=3 %}
+            
+            {% else %}
+            
+                <p class="lead text-center">You have already answered all questions. You can now create your profile to connect with others.</p>
+            
+            {% endif %}
+            
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="lead text-center">Answer more questions to get matches and connect with other users</p>
+        </div>
+    </div>
 
    {% else %}
    <div class="row">
-        <div class="col-sm-8">
-        	<h1 class="h1-responsive">Dashboard</h1>
+        <div class="col-sm-8" style="padding-bottom: 50px;">
+        	<!-- <h1 class="h1-responsive">Dashboard</h1> -->
+
+        <div style="padding-bottom: 30px; padding-right: 20px;">
+        {% if question_instance %}
+
+            {% include "questions/user_response_form.html" with instance=question_instance form=question_form title_size=3 %}
+        
+        {% else %}
+        
+            <p class="lead text-center">You have already answered all questions. Check back for more later.</p>
+        
+        {% endif %}
+        </div>
+
             {% if mutual_likes %}            
             <h3 class="h3-responsive">Mutual Interest</h3>
             <div class="row">

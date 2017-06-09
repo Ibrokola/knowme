@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import UserJob
+from .models import UserJob, Profile
 
 
 class UserJobForm(forms.ModelForm):
@@ -10,4 +10,14 @@ class UserJobForm(forms.ModelForm):
 			"position",
 			"location",
 			"employer_name",
+		]
+
+
+class ProfileForm(forms.ModelForm):
+	class Meta:
+		model = Profile
+		fields = [
+			"location",
+			"picture",
+			"description",
 		]

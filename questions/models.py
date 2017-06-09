@@ -1,9 +1,17 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Q
 
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
+
+
+class QuestionManager(models.Manager):
+	def get_unanswered(self, user):
+		q1 = Q(useranswer__user=user)
+		qs = self.exclude(q1)
+		return qs
 
 
 class Question(models.Model):
@@ -13,6 +21,7 @@ class Question(models.Model):
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 	# answers = models.ManyToManyField('Answer')
 
+	objects = QuestionManager()
 
 	def __str__(self):
 		return self.text[:10]

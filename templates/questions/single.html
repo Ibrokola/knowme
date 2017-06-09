@@ -4,35 +4,10 @@
 {% block content %}
 
 <div class='col-sm-6 offset-sm-3' style="padding-top: 150px;">
-	<form method='POST' action="">{% csrf_token %}
+
+{% include "questions/user_response_form.html" with instance=instance form=form %}
+
 	
-	<h3>{{ instance.text }}</h3>
-
-	<!-- {{ user_answer.user }} -->
-
-	<input type='hidden' name='question_id' value='{{ instance.id }}' />
-	
-	<h3>Your answer</h3>
-	{% for ans in instance.answer_set.all %}
-	<input type='radio' name='answer_id' class="radio" value='{{ ans.id }}' {% if user_answer.my_answer.id == ans.id %}checked=checked{% endif %} /><label for='radio'>{{ ans.text }}</label><br>
-	{% endfor %}
-
-	Importance: {{ form.importance_level }}
-
-	<br>
-	<br>
-	<h3>Your peer's ideal answer</h3>
-	{% for ans in instance.answer_set.all %}
-	<input type='radio' name='their_answer_id' class="radio" value='{{ ans.id }}' {% if user_answer.their_answer.id == ans.id %}checked=checked{% endif %} /><label for='radio'>{{ ans.text }}</label><br>
-	{% endfor %}
-
-	<input type='radio' name='their_answer_id' class="radio" value='-1' {% if not user_answer.their_answer %} checked=checked {% endif %}/><label for='radio'>Not significant</label><br>
-
-
-	Importance: {{ form.their_importance_level }} <br><br>
-
-	<input type='submit' class='btn btn-info btn-round' value='save and continue'>
-	</form>	
 </div>
 
 

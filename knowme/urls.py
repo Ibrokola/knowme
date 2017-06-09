@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 from questions import views 
 from dashboard import views as dash
-from profiles.views import profile_view, job_add, job_edit 
+from profiles.views import profile_user, profile_view, job_add, job_edit, profile_edit
 from likes.views import like_user
 
 urlpatterns = [
@@ -16,10 +16,12 @@ urlpatterns = [
     url(r'^question/(?P<id>\d+)/$', views.single, name='question_single'),
     url(r'^like/(?P<id>\d+)/$', like_user, name='like_user'),
     url(r'^question/$', views.create_view, name='question_home'),
+    url(r'^profile/edit/$', profile_edit, name='profile_edit'),
     url(r'^profile/(?P<username>[\w.@+-]+)/$', profile_view, name='profile'),
     url(r'^profile/job/add/$', job_add, name='job_add'),
     url(r'^profile/job/edit/$', job_edit, name='job_edit'),
     url(r'^matches/', include('matches.urls')),
+    url(r'^profile/$', profile_user, name='profile_user'),
 ]
 
 

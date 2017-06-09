@@ -8,6 +8,8 @@ from questions.forms import UserResponseForm
 
 from likes.models import UserLike
 
+from questions.forms import UserResponseForm
+
 from matches.models import Match, PositionMatch, EmployerMatch, LocationMatch
 
 
@@ -24,6 +26,8 @@ from matches.models import Match, PositionMatch, EmployerMatch, LocationMatch
 # 	return render(request, template, context)
 
 
+
+#dashboard view
 def dashboard_view(request):
 	if request.user.is_authenticated():
 		PositionMatch.objects.update_top_suggestions(request.user, 20)
@@ -36,10 +40,16 @@ def dashboard_view(request):
 		mutual_likes = UserLike.objects.get_all_mutual_likes(request.user, 6)
 
 		new_user = False
-		if len(mutual_likes) == 0 or len(matches) == 0:
+		if len(mutual_likes) == 0 and len(matches) == 0:
 			new_user = True
 
-		queryset = Question.objects.all().order_by('-timestamp')
+		question_instance = None
+		queryset = Question.objects.get_unanswered(request.user).order_by('-timestamp')
+
+		if queryset.count() > 0:
+			question_instance = queryset.order_by('?').first()
+
+		question_form = UserResponseForm()
 		template = "dashboard/dashboard.html"
 		context = { 	
 				'queryset': queryset,
@@ -49,6 +59,8 @@ def dashboard_view(request):
 				'employers': employers,
 				'mutual_likes': mutual_likes,
 				'new_user': new_user,
+				'question_form': question_form,
+				'question_instance': question_instance,
 			}
 		return render(request, template, context)
 	template = "dashboard/home.html"

@@ -25,10 +25,12 @@
 		        	<!-- <p>at</p> -->
 		        	<h6 class="category"><small>Works at</small> - {{ job.employer_name }}</h6>
 		        {% endfor %}
+            {% else %}
+                <p class="lead">Please add a <a href="{% url 'job_add' %}">Job</a></p>
 	        {% endif %}
 	        <div class="content">
-	            <div class="social-description">
-	                <h2>{{ match.get_percent }}</h2>
+	            <!-- <div class="social-description">
+	                <h2>{# match.get_percent #}</h2>
 	                <p>Match</p>
 	            </div>
 	            <div class="social-description">
@@ -36,37 +38,34 @@
 	                <p>Comments</p>
 	            </div>
 	            <div class="social-description">
-                {% if mutual_like %}
+                {# if mutual_like #}
 	                <h5 class="h5-responsive">You are connected!</h5>
-                {% else %}
-                    <h6 class="h6-responsive">Not connected yet</h6>    
-                {% endif %}
-	                <p>Mutual likes</p>
-	            </div>
+                {# else #}
+                    <h6 class="h6-responsive">Not connected yet</h6>
+                <p>Mutual interest</p>    
+                {# endif #}
+	            </div> -->
 	        </div>
 	    </div>
 	</div>
 </div>
 <div class="section">
     <div class="container">
-        <div class="button-container">
-            <a href="{{ profile.like_link }}" class="btn btn-info btn-round btn-lg">{% if do_i_like %}Unlike{% else %}Like{% endif %}</a>
-            <!-- <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title="Follow me on Twitter">
+        <!-- <div class="button-container">
+            <a href="{{ profile.like_link }}" class="btn btn-info btn-round btn-lg">{# if do_i_like #}Unlike{# else #}Like{# endif #}</a>
+            <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title="Follow me on Twitter">
                 <i class="fa fa-twitter"></i>
             </a>
             <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title="Follow me on Instagram">
                 <i class="fa fa-instagram"></i>
-            </a> -->
-        </div>
+            </a>
+        </div> -->
         <h3 class="title">About me</h3>
+        {% if profile.description %}
         <h5 class="description">
             {{ profile.description }}
         </h5>
-
-        {% if mutual_like %}
-            <h5 class="h5-responsive">{{ profile.user.email }}</h5>
-        <p class="lead">Kindly contact me if we are connected</p>
-        {% endif %}        
+        {% endif %}     
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
