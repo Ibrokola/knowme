@@ -65,13 +65,15 @@
         <h5 class="description">
             {{ profile.description }}
         </h5>
+        {% else %}
+        <p class="lead">Please edit your<a href="{% url 'profile_edit' %}">profile</a></p>
         {% endif %}     
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h4 class="title text-center">My Portfolio</h4>
+                <h4 class="title text-center">My Pictures</h4>
                 <div class="nav-align-center">
-                    <ul class="nav nav-pills nav-pills-primary" role="tablist">
+                    <ul class="nav nav-pills nav-pills-info" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#profile" role="tablist">
                                 <i class="now-ui-icons design_image"></i>
@@ -97,12 +99,12 @@
                         <div class="col-md-10 offset-md-1">
                             <div class="row collections">
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg1.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg3.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg1.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg3.jpg' %}" alt="" class="img-raised">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg8.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg7.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg8.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg7.jpg' %}" alt="" class="img-raised">
                                 </div>
                             </div>
                         </div>
@@ -113,12 +115,12 @@
                         <div class="col-md-10 offset-md-1">
                             <div class="row collections">
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg6.jpg" class="img-raised">
-                                    <img src="../assets/img/bg11.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg6.jpg' %}" class="img-raised">
+                                    <img src="{% static 'img/bg11.jpg' %}" alt="" class="img-raised">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg7.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg8.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg7.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg8.jpg' %}" alt="" class="img-raised">
                                 </div>
                             </div>
                         </div>
@@ -129,12 +131,12 @@
                         <div class="col-md-10 offset-md-1">
                             <div class="row collections">
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg3.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg8.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg3.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg8.jpg' %}" alt="" class="img-raised">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg7.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg6.jpg" class="img-raised">
+                                    <img src="{% static 'img/bg7.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg6.jpg' %}" class="img-raised">
                                 </div>
                             </div>
                         </div>

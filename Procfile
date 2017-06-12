@@ -1,0 +1,1 @@
+web: gunicorn knowme.wsgi --log-file -

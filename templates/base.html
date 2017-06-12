@@ -38,20 +38,20 @@
 <body class="landing-page profile-page">
     {% include 'navbar.html' %}
 
-    <div class="wrapper">
-    {% if messages %}
+<!--     <div class="wrapper">
+    {# if messages #}
     <div class="alert alert-info text-center">
-        {% for message in messages %}
-        <div{% if message.tags %} class="{{ messages.tags }}"{% endif %}>{{ message }}</div>
+        {# for message in messages #}
+        <div{# if message.tags #} class="{{ messages.tags }}"{# endif #}>{{ message }}</div>
         
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-top: -1.5rem;">
                 <span aria-hidden="true">
                     <i class="now-ui-icons ui-1_simple-remove"></i>
                 </span>
             </button>
-        {% endfor %}
+        {# endfor #}
     </div>
-    {% endif %}
+    {# endif #} -->
 
         <div style="min-height: 1000px;">{% block content %} {% endblock %}</div>
         

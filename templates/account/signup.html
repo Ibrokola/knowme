@@ -1,0 +1,52 @@
+{% extends "account/base.html" %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<!--Form with header-->
+<div class="section section-signup" style="background-image: url('{% static 'img/bg11.jpg' %}'); background-size: cover; background-position: top center; min-height: 900px;">
+        <div class="container">
+            <div class="col-md-8 offset-md-2 content-center">
+                <div class="card card-login card-plain">
+
+        <!-- <form class="form" method="" action=""> -->
+            <div class="header header-primary text-center">
+                <h4 class="title title-up">{% trans "Sign Up" %}</h4>
+			<!-- <h1>{% trans "Sign Up" %}</h1> -->
+
+            {% load socialaccount %}
+            <div class="social-line">
+                <a href="{% provider_login_url 'facebook' method='oauth2' %}" class="btn btn-neutral btn-facebook btn-icon btn-icon-mini">
+                    <i class="fa fa-facebook-square"></i>
+                </a>
+                <a href="{% provider_login_url 'twitter' %}" class="btn btn-neutral btn-twitter btn-icon">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="#pablo" class="btn btn-neutral btn-google btn-icon  btn-icon-mini">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+            </div>
+
+<!--             <a href="{# provider_login_url 'facebook' method='oauth2' #}" class='btn-floating btn-small btn-fb'><i class="fa fa-facebook"></i></a>
+            <a href="{# provider_login_url 'twitter' #}" class='btn-floating btn-small btn-tw'><i class="fa fa-twitter"></i></a> -->
+
+			<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">Login</a>.{% endblocktrans %}</p>
+
+			<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+			  {% csrf_token %}
+			  {{ form|crispy }}
+			  {% if redirect_field_value %}
+			  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+			  {% endif %}
+			  <br>
+			  <button type="submit" class="btn btn-info">{% trans "Sign Up" %} &raquo;</button>
+			</form>
+		</div>
+</div>
+</div>
+{% endblock %}

@@ -1,4 +1,7 @@
 import os
+
+from knowme.aws.conf import *
+
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -11,7 +14,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['knowmii.herokuapp.com']
 
 
 # Application definition
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'jobs',
     'likes',
     'dashboard',
+    'storages',
 ]
 
 SITE_ID = 1
@@ -60,8 +64,8 @@ ACCOUNT_AUTHENTICATION_METHOD =  'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+# SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
 LOGIN_REDIRECT_URL = '/'
 
 
@@ -106,6 +110,9 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -155,7 +162,6 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "live-static", "media-root")
 
-PROTECTED_ROOT = os.path.join(BASE_DIR, "live-static", "protected-root")
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {

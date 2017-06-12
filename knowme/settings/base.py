@@ -1,6 +1,8 @@
 import os
 from decouple import config
 
+# from knowme.aws.conf import *
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'jobs',
     'likes',
     'dashboard',
+    'storages',
 ]
 
 SITE_ID = 1
@@ -160,7 +163,6 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "live-static", "media-root")
 
-PROTECTED_ROOT = os.path.join(BASE_DIR, "live-static", "protected-root")
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {

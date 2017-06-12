@@ -1,4 +1,4 @@
-from django.contrib import messages
+# from django.contrib import messages
 from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
@@ -61,10 +61,10 @@ def single(request, id):
 
 			user_matches_update.send(user=request.user, sender=user_answer.__class__)
 
-			if updated_q:
-				messages.success(request, "Your response was updated successfully.", extra_tags='updated')
-			else:
-				messages.success(request, "Your response was saved successfully.")
+			# if updated_q:
+			# 	messages.success(request, "Your response was updated successfully.", extra_tags='updated')
+			# else:
+			# 	messages.success(request, "Your response was saved successfully.")
 			
 			next_q = Question.objects.get_unanswered(request.user).order_by("?")
 			if next_q.count() > 0:

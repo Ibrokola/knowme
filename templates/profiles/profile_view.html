@@ -31,10 +31,10 @@
 	                <h2>{{ match.get_percent }}</h2>
 	                <p>Match</p>
 	            </div>
-	            <div class="social-description">
+<!-- 	            <div class="social-description">
 	                <h2>26</h2>
 	                <p>Comments</p>
-	            </div>
+	            </div> -->
 	            <div class="social-description">
                 {% if mutual_like %}
 	                <h5 class="h5-responsive">You are connected!</h5>
@@ -70,9 +70,9 @@
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h4 class="title text-center">My Portfolio</h4>
+                <h4 class="title text-center">My Pictures</h4>
                 <div class="nav-align-center">
-                    <ul class="nav nav-pills nav-pills-primary" role="tablist">
+                    <ul class="nav nav-pills nav-pills-info" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#profile" role="tablist">
                                 <i class="now-ui-icons design_image"></i>
@@ -98,12 +98,12 @@
                         <div class="col-md-10 offset-md-1">
                             <div class="row collections">
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg1.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg3.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg1.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg3.jpg' %}" alt="" class="img-raised">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg8.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg7.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg8.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg7.jpg' %}" alt="" class="img-raised">
                                 </div>
                             </div>
                         </div>
@@ -114,12 +114,12 @@
                         <div class="col-md-10 offset-md-1">
                             <div class="row collections">
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg6.jpg" class="img-raised">
-                                    <img src="../assets/img/bg11.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg6.jpg' %}" class="img-raised">
+                                    <img src="{% static 'img/bg11.jpg' %}" alt="" class="img-raised">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg7.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg8.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg7.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg8.jpg' %}" alt="" class="img-raised">
                                 </div>
                             </div>
                         </div>
@@ -130,12 +130,12 @@
                         <div class="col-md-10 offset-md-1">
                             <div class="row collections">
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg3.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg8.jpg" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg3.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg8.jpg' %}" alt="" class="img-raised">
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="../assets/img/bg7.jpg" alt="" class="img-raised">
-                                    <img src="../assets/img/bg6.jpg" class="img-raised">
+                                    <img src="{% static 'img/bg7.jpg' %}" alt="" class="img-raised">
+                                    <img src="{% static 'img/bg6.jpg' %}" class="img-raised">
                                 </div>
                             </div>
                         </div>
