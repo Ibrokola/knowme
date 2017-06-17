@@ -9,7 +9,7 @@ from profiles.views import profile_user, profile_view, job_add, job_edit, profil
 from likes.views import like_user
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^ib/admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^$', dash.dashboard_view, name='home'),
     url(r'^dashboard/$', dash.dashboard_view, name='dashboard'),
