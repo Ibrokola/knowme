@@ -10,7 +10,7 @@
 
 {% block content %}
 <div class="page-header" filter-color="blue">
-      <div class="page-header-image" style="background-image:url({% static 'img/login.jpg' %})">
+      <div class="page-header-image" style="background-image:url({% static 'img/login.jpg' %})"></div>
         <div class="container">
             <div class="col-sm-4 content-center">
                 <div class="card card-login card-plain">
@@ -71,7 +71,7 @@
                 <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                 <button class="primaryAction btn btn-info" type="submit">{% trans "Login" %}</button>
               </form>
-            </div>
+
         </div> 
     </div>
 </div>
